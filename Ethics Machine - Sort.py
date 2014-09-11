@@ -1,8 +1,8 @@
 from operator import *
 
-action1 = [2,2,-1]
-action2 = [-2,-2,2]
-principal = [[1, -4, -2], [-1, -3, -1], [-4, -4, 3], [-4, 3, -2]]
+action1 = [1,-1]
+action2 = [-1,1]
+principal = [[-1,-1] , [-2, 1]]
 #False
 
 
@@ -124,7 +124,7 @@ def mySortedKey(actionList, principal):
     global myPrincipal
     myPrincipal = principal
     return sorted(actionList, key=cmp_to_key(isActionPreferrable))
-
+"""
 print ""
 print "Sorting with CMP, parameters are global variables: actionList and principal2"
 print "mySorted(actionList, principal2)"
@@ -133,7 +133,9 @@ print ""
 print "Sorting by key, parameters are same as above"
 print "mySortedKey(actionList, principal2)"
 print mySortedKey(actionList, principal2)
+"""
 
+print mySorted([action1,action2],principal)
         
         
         
