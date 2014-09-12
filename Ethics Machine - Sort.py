@@ -1,7 +1,7 @@
 from operator import *
 
-action1 = [1,-1]
-action2 = [-1,1]
+charge = [1,1]
+remind = [-1,-1]
 principal = [[-1,-1] , [-2, 1]]
 #False
 
@@ -135,7 +135,7 @@ print "mySortedKey(actionList, principal2)"
 print mySortedKey(actionList, principal2)
 """
 
-print mySorted([action1,action2],principal)
+print mySorted([charge,remind],principal)
         
         
         
