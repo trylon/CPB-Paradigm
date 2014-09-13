@@ -1,3 +1,5 @@
+from operator import *
+
 actions = {
     'remind':[1,-1],
     'charge':[-1,1]
