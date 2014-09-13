@@ -1,7 +1,9 @@
 from operator import *
 
-action1 = [1,-1]
-action2 = [-1,1]
+actions = {
+    'remind':[1,-1],
+    'charge':[-1,1]
+}
 principal = [[-1,-1] , [-2, 1]]
 #False
 
@@ -46,6 +48,7 @@ principal2 = [[-4,1,-2,-2,-4],[1,-2,-2,-2,-4],[-4,-2,-2,-2,1],[-4,-1,-1,-1,-1],[
 
 
 def isActionPreferred(action1, action2, principal):
+
     PosCase = map(sub, action1, action2)
     NegCase = map(sub, action2, action1)
     if (any(map(lambda i: all(map(ge, PosCase, i)), principal))
@@ -74,7 +77,11 @@ print isActionPreferred(c8a1, c8a2, principal89)    #True
 print isActionPreferred(c9a1, c9a2, principal89)    #False
 '''
 
-def isActionPreferrable(action1, action2):
+def isActionPreferrable(action1tup, action2tup):
+    action1 = action1tup[1]
+    action2 = action2tup[1]
+    print action1
+    print action2
     PosCase = map(sub, action1, action2)
     NegCase = map(sub, action2, action1)
     actionPrincipal = myPrincipal
@@ -135,7 +142,7 @@ print "mySortedKey(actionList, principal2)"
 print mySortedKey(actionList, principal2)
 """
 
-print mySorted([action1,action2],principal)
+print mySorted(actions.iteritems(),principal)
         
         
         
