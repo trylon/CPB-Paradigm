@@ -1,13 +1,13 @@
 from operator import *
 
 actions = {
-    'remind':[1,-1],
-    'charge':[-1,1]
+    'charge':[1,-1],
+    'remind':[-1,1]
 }
 principal = [[-1,-1] , [-2, 1]]
 
 
-def isActionPreferrable(action1tup, action2tup):
+def isActionPreferable(action1tup, action2tup):
     action1 = action1tup[1]
     action2 = action2tup[1]
     print action1
@@ -32,6 +32,6 @@ def isActionPreferrable(action1tup, action2tup):
 def mySorted(actionList, principal):
     global myPrincipal
     myPrincipal = principal
-    return sorted(actionList, cmp=isActionPreferrable)
+    return sorted(actionList, cmp=isActionPreferable)
 
 print mySorted(actions.iteritems(),principal)
