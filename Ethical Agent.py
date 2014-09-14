@@ -1,11 +1,8 @@
 from operator import *
+from WorldModel import WorldModel
 
-actions = {
-    'charge':[1,-1],
-    'remind':[-1,1]
-}
+world = WorldModel()
 principal = [[-1,-1] , [-2, 1]]
-
 
 def isActionPreferable(action1tup, action2tup):
     action1 = action1tup[1]
@@ -34,4 +31,5 @@ def mySorted(actionList, principal):
     myPrincipal = principal
     return sorted(actionList, cmp=isActionPreferable)
 
-print mySorted(actions.iteritems(),principal)
+print mySorted(world.getWorld().iteritems(),principal)
+print mySorted(world.getWorld().iteritems(),principal)
