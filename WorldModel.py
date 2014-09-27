@@ -5,8 +5,8 @@ class WorldModel:
             'charge':[1,-1],
             'remind':[-1,1]
         },{
-            'remind':[1,-1],
-            'charge':[-1,1]
+            'charge':[1,1],  #fixed incorrect data
+            'remind':[-1,-1]
         }]
     def getWorld(self):
         self.changeCount = self.changeCount + 1
