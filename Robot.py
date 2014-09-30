@@ -7,7 +7,7 @@ class Robot:
         self.world = WorldModel()
     def performActions(self):
 
-        action = self.ethicalAgent.mySorted(self.world.getWorld())[2][0]  #correct action at end of list, not beginning
+        action = self.ethicalAgent.mySorted(self.world.getWorld())[0][0]
         if action == 'remind':
             print "time to take your medication"
         if action == 'charge':
