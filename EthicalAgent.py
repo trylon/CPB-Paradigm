@@ -16,14 +16,14 @@ class EthicalAgent:
         actionPrincipal = self.principal
         if (any(map(lambda i: all(map(ge, PosCase, i)), actionPrincipal))
             and not any(map(lambda i: all(map(ge, NegCase, i)), actionPrincipal))):
-                return 1
+                return -1
         elif (any(map(lambda i: all(map(ge, NegCase, i)), actionPrincipal))
             and not any(map(lambda i: all(map(ge, PosCase, i)), actionPrincipal))):
-                return -1
+                return 1
         elif sum(action1) > sum(action2):
-            return 1
-        elif sum(action2) > sum(action1):
             return -1
+        elif sum(action2) > sum(action1):
+            return 1
         else:
             return 0
 
