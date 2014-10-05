@@ -34,6 +34,6 @@ class EthicalAgent:
     def findClause(self,action1,action2):
         result = map(operator.sub,action1,action2)
         for i,v in enumerate(self.principal):
-            if all(x >= y for x, y in zip(action1, action2)):
+            if all(x >= y for x, y in zip(result, v)):
                 return i
         return -1 #none found
