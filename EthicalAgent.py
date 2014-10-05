@@ -31,9 +31,9 @@ class EthicalAgent:
     def mySorted(self,actionList):
         return sorted(actionList.iteritems(), cmp=self.isActionPreferable)
     
-    def findClause(self,action1,action2,principle):
+    def findClause(self,action1,action2):
         result = map(operator.sub,action1,action2)
-        for i,v in enumerate(principle):
+        for i,v in enumerate(self.principal):
             if all(x >= y for x, y in zip(action1, action2)):
                 return i
         return -1 #none found
