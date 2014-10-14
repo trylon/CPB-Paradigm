@@ -4,13 +4,19 @@ from WorldModel import WorldModel
 class EthicalAgent:
     def __init__(self):
         self.world = WorldModel()
-        self.principal = [[-1, -1, -1, -2], [-2, 1, -2, -2], [-2, -2, 1, -2]]
+        self.principal = [[1,-4,-2,-2,-2],
+                          [-2,-4,1,-2,-2],
+                          [-2,-4,-2,-2,1],
+                          [-2,-3,-2,1,-2],
+                          [-1,-1,-1,-1,-1],
+                          [-2,3,-2,-2,-2]]
+
 
     def isActionPreferable(self,action1tup, action2tup):
         action1 = action1tup[1]
         action2 = action2tup[1]
-        print action1
-        print action2
+        #print action1
+        #print action2
         PosCase = map(sub, action1, action2)
         NegCase = map(sub, action2, action1)
         actionPrincipal = self.principal
