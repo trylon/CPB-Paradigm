@@ -36,3 +36,17 @@ class EthicalAgent:
 
     def mySorted(self,actionList):
         return sorted(actionList.iteritems(), cmp=self.isActionPreferable)
+    
+    def findClause(self,action1,action2):
+        result = map(operator.sub,action1,action2)
+        for i,v in enumerate(self.principal):
+            if all(x >= y for x, y in zip(result, v)):
+                return i
+        return -1 #none found
+        
+    def findCase(self,principleClause,actionPairs):
+        for i,action in enumerate(actionPairs):
+            result = map(operator.sub,action[0],action[1])
+            if all(x >= y for x, y in zip(principleClause, result)):
+                return i
+        return -1 #none found
