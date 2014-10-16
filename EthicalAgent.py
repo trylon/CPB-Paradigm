@@ -47,6 +47,6 @@ class EthicalAgent:
     def findCase(self,principleClause,actionPairs):
         for i,action in enumerate(actionPairs):
             result = map(operator.sub,action[0],action[1])
-            if all(x >= y for x, y in zip(principleClause, result)):
+            if all(x >= y for x, y in zip(result,principleClause)):
                 return i
         return -1 #none found
