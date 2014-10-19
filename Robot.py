@@ -3,7 +3,9 @@ from WorldModel import WorldModel
 
 class Robot:
     def __init__(self):
-        self.ethicalAgent = EthicalAgent()
+        self.ethicalAgent = EthicalAgent(
+            [[-1, -1, -1, -2], [-2, 1, -2, -2], [-2, -2, 1, -2]]
+        )
         self.world = WorldModel()
     def performActions(self):
 

@@ -2,9 +2,9 @@ from operator import *
 from WorldModel import WorldModel
 
 class EthicalAgent:
-    def __init__(self):
+    def __init__(self,principal):
         self.world = WorldModel()
-        self.principal = [[-1, -1, -1, -2], [-2, 1, -2, -2], [-2, -2, 1, -2]]
+        self.principal = principal
 
     def isActionPreferable(self,action1tup, action2tup):
         action1 = action1tup[1]
