@@ -9,8 +9,8 @@ class EthicalAgent:
     def isActionPreferable(self,action1tup, action2tup):
         action1 = action1tup[1]
         action2 = action2tup[1]
-        print action1
-        print action2
+        #print action1
+        #print action2
         PosCase = map(sub, action1, action2)
         NegCase = map(sub, action2, action1)
         actionPrincipal = self.principal
@@ -41,9 +41,10 @@ class EthicalAgent:
     def findCase(self,principleClause,actionPairs):
         for i,action in enumerate(actionPairs):
             result = map(operator.sub,action[0],action[1])
-            if all(x >= y for x, y in zip(principleClause, result)):
+            if all(x >= y for x, y in zip(result,principleClause)):
                 return i
         return -1 #none found
+<<<<<<< HEAD
     
     def getPreferredAction(self,actionList):
       sorted = self.mySorted(actionList)
@@ -57,3 +58,5 @@ class EthicalAgent:
         else:  #otherwise
           break #stop the loop
       return random.choice(bestActions) #pick randomly from the generated list http://stackoverflow.com/questions/306400/how-do-i-randomly-select-an-item-from-a-list-using-python
+=======
+>>>>>>> b2cefd65fab30dddb8964c6e6a655ae86fc3fd43
