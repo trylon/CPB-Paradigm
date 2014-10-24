@@ -51,8 +51,7 @@ class EthicalAgent:
       i = 0
       while True: #emulate do-while http://stackoverflow.com/a/743944/1376005
         bestActions.append(sorted[i]) #add the action (do this before checking because you need at least one)
-        if i < len(sorted) - 1 #if the length of the array has not been iterated
-          and self.isActionPreferable(sorted[i],sorted[i+1]) == 0: #and the actions are equally preferable
+        if i < len(sorted) - 1 and self.isActionPreferable(sorted[i],sorted[i+1]) == 0: #if the length of the array has not been iterated and the actions are equally preferable
             i = i + 1 #i++ and continue
         else:  #otherwise
           break #stop the loop
