@@ -57,4 +57,3 @@ class EthicalAgent:
         else:  #otherwise
           break #stop the loop
       return random.choice(bestActions) #pick randomly from the generated list http://stackoverflow.com/questions/306400/how-do-i-randomly-select-an-item-from-a-list-using-python
-
