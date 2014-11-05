@@ -1,8 +1,3 @@
-from collections import namedtuple
-import 
-
-
-
 # defining the schemes to be contained in memory
 
 class patient(object):
