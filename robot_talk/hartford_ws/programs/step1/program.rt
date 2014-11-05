@@ -1,0 +1,21 @@
+
+scheme : mark
+       absolute_position
+
+
+state : walk around table
+      targeting mark : walking to, priority of 3
+      targeting mark : looking at, priority of 3 | time_delete = None
+      targeting world_center : walking to, priority of 2 | weight = 0.5
+      targeting world_direction :  turning to, priority of 1 | weight = 0.5
+      manage_world_tour, priority of 0
+      natural motions, priority of 0
+      leds, priority of 0 
+      
+state : ending program
+      rest      
+
+program :
+	rest if battery_level < 10 or temperature_warning or headpad
+	walk around table, switch to ending program if world_tour_done and world_center.distance<0.2 and world_direction.abs_angle<pi/12
+	ending program

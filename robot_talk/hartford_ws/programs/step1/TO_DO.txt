@@ -1,0 +1,8 @@
+
+
+clean conversion from absolute to relative position, with possibilities to switch to relative position estimation if required
+maybe the schemes can have two properties, absolute and relative position, as well as two time_stamp, and each component decide which to use ?
+
+fusion of walking parameters between components, and related resoure management
+
+adding no_delete parameter to looking at behavior
