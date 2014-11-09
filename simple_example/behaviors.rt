@@ -1,0 +1,15 @@
+
+behavior : grabbing
+	 look_at
+	 grab if graspable # set memory key "medecine_in_hand" to True if success
+	 precise_step if close
+	 walk 
+
+behavior : giving medecin
+	 look_at
+	 walk if far
+	 give_medecine # set patient property "refuse_medecine" to True if activated long, update "time_medecine_taken" property of patient once medecine taken
+
+behavior : contacting overseer
+	 send_warning_message
+

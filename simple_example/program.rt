@@ -1,0 +1,19 @@
+
+
+state : executing
+
+      targeting medecine : grabbing, priority of get_ethical_score | behavior_id = GRAB_MEDECIN
+      targeting patient : giving medecin, priority of get_ethical_score | behavior_id = GIVE_MEDECIN
+      contacting overseer, priority of get_ethical_score | behavior_id = CONTACT_OVERSEER
+      targeting charger : walking to, priority of 1
+      natural motions, priority of 0
+      leds, priority of 0
+
+
+state : ending 
+      resting
+
+
+program : 
+	executing, switch to ending if battery_level < 10 or temparature_warning
+	ending

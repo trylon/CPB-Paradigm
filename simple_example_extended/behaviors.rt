@@ -1,0 +1,20 @@
+
+behavior : grabbing
+	 look_at
+	 grab if graspable # set memory key "medecine_in_hand" to True if success
+	 precise_step if close
+	 walk 
+
+behavior : giving medecine
+	 look_at
+	 walk if far
+	 give_medecine # set patient property "refuse_medecine" to True if activated long, update "time_medecine_taken" property of patient once medecine taken
+
+behavior : contacting overseer
+	 send_warning_message
+
+# ADDED !
+behavior : checking
+	 walking if far
+	 say_periodic | sentence "are you ok ?" ; period=5
+	 flag_unresponsive if duration_immobile > 20  # change the patient property "unresponsive" to True if immobile for 20 sec

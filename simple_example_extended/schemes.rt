@@ -1,0 +1,6 @@
+
+scheme : patient
+       time_medecine_taken, refuse_medecine, position, time_stamp, time_last_motion, unresponsive  # ADDED : time_last_motion, unresponsive
+
+
+
