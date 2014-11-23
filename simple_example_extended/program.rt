@@ -2,16 +2,24 @@
 
 state : executing
 
+      # below are reflex behaviors, set with high priority to override any other behavior of lower priority
+      standing_up, priority of 3 if on_the_floor
+      
+      # below are behavior subject to ethical decision. Will be activated if get_ethical score between 1 and 2.
+      # if score superior to 3, then will override the reflex behaviors
+
       targeting medecine : grabbing, priority of get_ethical_score | behavior_id = GRAB_MEDECIN
       targeting patient : giving medecin, priority of get_ethical_score | behavior_id = GIVE_MEDECIN
       contacting overseer, priority of get_ethical_score | behavior_id = CONTACT_OVERSEER
-
-      # ADDED !
       targeting patient : checking, priority of get_ethical_score | behavior_id = CHECK_ON_PATIENT   
 
+      # below are behavior of lower priority, therefore just performed if ethical_score is negative for all ethical actions
 
       targeting charger : walking to, priority of 1
       natural motions, priority of 0
+
+      # also lower priority, but will be executed anyway because none of the behavior above give instruction to leds
+
       leds, priority of 0
 
 
