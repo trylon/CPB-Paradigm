@@ -1,66 +1,43 @@
 import robot_talk as rt
 import time,math
+from collections import Counter,deque
 from robot_talk_drivers_rt import set_ethical_score
 
 
-# ADDED! ######
-def ethical_algorithm (patient_scores, immobile_scores):
-    #### code for new algorithm to be tested is implemented here
-    pass
+def ethical_thinking(possible_actions):
+    # here code that do several things:
+    # for example (but that can be anything): 
+    # 1. compute the ethical values
+    # 2. run geneth
+    # 3. possibly does some post processing
+    # return selected action, e.g. GIVE_MEDICINE
 
 
+action_history = deque(10);
+def resolve_action_thrashing(selected_action):
+    global action_history
+    action_history.append(selected_action)
+    return Counter(action_history).most_common(1)[0]
+    
 
 def decision_making():
 
-    while True:
+    while not rt.stopped():
 
-        ########## decision making ############
-        
-        # getting patient information from world state
-        patients = rt.pull_type("patients")
-    
-        # scores that represents the delay (mapped to [0,1]) since the time medecine shoud have beed drunk
-        # negative scores means there is still some time ahead before patient needs medecine
-        patient_scores = [ patient["medecine_delay"] for patient in patients ]
-        # does any patient needs medecine ?
-        anybody_needs_medecine = any( [ score>0 for score in patient_scores ] )
+        # some action might not be available. e.g. GIVE_MEDICINE if the patient left. This is updated automatically at lower level.
+        possible_actions = rt.get_possible_actions() 
 
-        # ADDED ! ######################
-        # scores that represents the delay (mapped to [0,1] since the time the patient was detected moving
-        immobile_scores = [ patient["duration_immobile"] for patient in patients ]
+        # what should be the robot doing ?
+        selected_action = ethical_thinking(possible_actions)
 
-        # ADDED ! ######################
-        # some patient require medecine (as represented in patient_scores) and some have been immobile (as represented by immobile score)
-        # these scores have to be altered to represent their respective ethical values !
-        ethical_algorithm(patient_scores,immobile_scores)
-    
-        # if anybody needs medecine, grasping medecine is prioritized to 2. Else negative priority scores
-        medecine_grab_score = (2 if anybody_needs_medecine else -1)
-    
-        # if overseer needs to be contacted, that will be highest of prioriy (3)
-        overseer_score = -1
-        # two patients expected ! where did one go ?
-        if len(patients)!=2 : overseer_score = 3 
-        # somebody needs medecine, but the state of the world says there is no medecine in the world or in the robot hand !
-        elif anybody_needs_medecine and len(rt.pull_type["medecine"])==0 and not rt.pull("medecine_in_hand") : overseer_score = 3
-        # world state says at least one patient is refusing medication
-        elif any ( [ patient["refuse_medecine"] for patient in patients] ) : overseer_score = 3
-        # ADDED ! ##############################
-        # world state an immobile patient have been non responsive to the robot checking on her/him
-        elif any ( [ patient["unresponsive"] for patient in patients ] ): overseer_score = 3
+        # risk of action thrashing (robot changing its mind about what to do at each iteration). Solved below:
+        selected_action = resolve_action_thrashing(selected_action)
 
-    
-        ############ sharing results ################
-        
-        scores = {}
-        scores[GRAB_MEDECINE] = medecine_grab_score
-        scores[GIVE_MEDECINE] = patient_scores
-        scores[CONTACT_OVERSEER] = overseer_score
-        # ADDED !
-        scores[CHECK_ON_PATIENT] = immobile_scores
-
-
+        # give results to TDM
+        scores = {action:-1 for action in possible_actions}
+        scores[selected_action] = 1
         set_ethical_score(scores)
 
-        time.sleep()
+        # frequency can be configured.
+        time.sleep(1)
     
