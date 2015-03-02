@@ -25,3 +25,5 @@ class Robot:
             print "notifying the overseer"
         if action == 'seek task':
             print "seeking task"
+        if action == 'warn':
+            print "warning"
