@@ -13,6 +13,8 @@ class EthicalAgent:
                           [-2, -4, -3, -2, -4,  1],
                           [-2,  3, -4, -2, -4, -4],
                           [-1,  1, -4, -1, -1, -4]]
+        self.dutyNames = ['maximize follow orders', 'maximize readiness', 'minimize harm to patient', 'maximize good to patient', 'minimize non interaction','maximize autonomy']
+        self.dutyPossibleMinimums = [-2, -4, -4, -2, -4, -4]
 
         # self.principal = [[1, -4, -4, -2, -4],
         #                   [-2, -3, -4, 1, -4],
@@ -79,5 +81,12 @@ class EthicalAgent:
             else:
                 break
         return random.choice(bestActions)
-
+    
+    def generateJustifyInactionClause(self,naoActionString,userQuestioningActionString):
+        world = self.world.getWorld()
+        naoAction = world[naoActionString]
+        userQuestioningAction = world[userQuestioningActionString]
+        return findClause(naoAction,userQuestioningAction)
+        
+        
         # {'remind': [1, -1, 0, -1, 0], 'seek task':[1, -1, 0, -1, 0], 'charge':[-1, 1, 0, -1, 0],'notify':[-1, 0, 0, -1, 0]}
