@@ -14,6 +14,10 @@ class EthicalAgent:
                           [-2,  3, -4, -2, -4, -4],
                           [-1,  1, -4, -1, -1, -4]]
 
+        self.dutyNames = ['maximize follow orders', 'maximize readiness', 'minimize harm to patient', 'maximize good to patient', 'minimize non interaction','maximize autonomy']
+        self.dutyPossibleMinimums = [-2, -4, -4, -2, -4, -4]
+
+
         # self.principal = [[1, -4, -4, -2, -4],
         #                   [-2, -3, -4, 1, -4],
         #                   [-2, -4, 1, -2, -4],
@@ -61,10 +65,17 @@ class EthicalAgent:
                 return i
         return -1  # none found
 
-    def findCase(self, principleClause, actionPairs):
-        for i, action in enumerate(actionPairs):
-            result = map(operator.sub, action[0], action[1])
-            if all(x >= y for x, y in zip(result, principleClause)):
+    # def findCase(self, principleClause, actionPairs):
+    #     for i, action in enumerate(actionPairs):
+    #         result = map(operator.sub, action[0], action[1])
+    #         if all(x >= y for x, y in zip(result, principleClause)):
+    #             return i
+    #     return -1  # none found
+
+    def findCase(self, principleClause, actionPairs):#array filled with actionpair objects
+        for i, action in enumerate(actionPairs):#action is the actionpair object
+            result = map(sub, action.case[0], action.case[1])#action.case is the list with 2 lists profiles
+            if all(x >= y for x, y in zip(result, principleClause)):#probably doesnt need to change
                 return i
         return -1  # none found
 
@@ -79,5 +90,28 @@ class EthicalAgent:
             else:
                 break
         return random.choice(bestActions)
+
+    def generateJustifyInactionClause(self,naoActionString,userQuestioningActionString):
+        world = self.world.getWorld()
+        naoAction = world[naoActionString]
+        userQuestioningAction = world[userQuestioningActionString]
+        return findClause(naoAction,userQuestioningAction)
+
+    def generateExplanationString(self,naoActionString,userQuestioningActionString):
+        world = self.world.getWorld()
+        if(self.findClause(world[naoActionString],world[userQuestioningActionString])==-1):
+            return "Actions were equally preferable, " + naoActionString + " was chosen randomly."
+        action_list = []
+        question_list = []
+        for action_value,question_value,duty_name in zip(world[naoActionString],world[userQuestioningActionString],self.dutyNames):
+            if question_value>action_value:
+                question_list.append(duty_name)
+            elif action_value>question_value:
+                action_list.append(duty_name)
+        if(len(question_list)==0):
+            return userQuestioningActionString + " does not satisfy anything better than " + naoActionString
+        return ("Although " + userQuestioningActionString + " satisfies " + " and ".join(question_list) +
+                " more than " + naoActionString + ", " + naoActionString + " satisfies " + " and ".join(action_list) +
+                " better than " + userQuestioningActionString)
 
         # {'remind': [1, -1, 0, -1, 0], 'seek task':[1, -1, 0, -1, 0], 'charge':[-1, 1, 0, -1, 0],'notify':[-1, 0, 0, -1, 0]}

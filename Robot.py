@@ -3,14 +3,7 @@ from WorldModel import WorldModel
 
 class Robot:
     def __init__(self):
-        self.ethicalAgent = EthicalAgent(
-            [[1,-4,-2,-2,-2],
-              [-2,-4,1,-2,-2],
-              [-2,-4,-2,-2,1],
-              [-2,-3,-2,1,-2],
-              [-1,-1,-1,-1,-1],
-              [-2,3,-2,-2,-2]]
-        )
+        self.ethicalAgent = EthicalAgent()
         self.world = WorldModel()
     def performActions(self):
 
