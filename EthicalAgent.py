@@ -52,7 +52,7 @@ class EthicalAgent:
         elif sum(action2) > sum(action1):
             return 1
         else:
-            return 0
+            return 0 
 
 
     def mySorted(self, actionList):
