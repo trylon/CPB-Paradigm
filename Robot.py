@@ -1,12 +1,15 @@
 from EthicalAgent import EthicalAgent
 from WorldModel import WorldModel
+from TextFileReader import TextFileReader
 
 class Robot:
     def __init__(self):
         self.ethicalAgent = EthicalAgent()
         self.world = WorldModel()
-    def performActions(self):
+        self.textFileReader = TextFileReader('Casebase')
+        self.textFileReader.readData()
 
+    def performActions(self):
         actionlist = self.ethicalAgent.mySorted(self.world.getWorld())
         print actionlist
         action = actionlist[0][0]
@@ -20,3 +23,11 @@ class Robot:
             print "seeking task"
         if action == 'warn':
             print "warning"
+
+
+        print self.ethicalAgent.generateExplanationString(action, 'remind')
+        print self.ethicalAgent.generateExplanationString(action, 'seek task')
+        print self.ethicalAgent.generateExplanationString(action, 'charge')
+        print self.ethicalAgent.generateExplanationString(action, 'warn')
+        print self.ethicalAgent.generateExplanationString(action, 'notify')
+        print
