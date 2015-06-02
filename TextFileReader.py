@@ -15,7 +15,7 @@ class TextFileReader:
         prevLine = ""
         isDuty = False
         with open(self.file) as test:
-            for line in test:
+            for line in test:#iterate over every line
                 if "Description:" in line:#textual description
                     textArray.append(line[13:len(line)-1])                    
                 elif "Duties:" in line:
