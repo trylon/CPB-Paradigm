@@ -1,9 +1,7 @@
 
-import operator
-import string
 from string import capitalize
-from operator import *
-import random
+from operator import sub, ge
+from random import choice
 from WorldModel import WorldModel
 
 
@@ -94,7 +92,7 @@ class EthicalAgent:
                 i = i + 1
             else:
                 break
-        return random.choice(bestActions)
+        return choice(bestActions)
 
     # def generateJustifyInactionClause(self,naoActionString,userQuestioningActionString):
     #     world = self.world.getWorld()
