@@ -101,10 +101,10 @@ class EthicalAgent:
     #     return findClause(naoAction,userQuestioningAction)
 
     #TODO: possible that actions have different values for duties but are still equally preferable-- should say "randomly chosen"
-    def generateExplanationString(self,naoActionString,userQuestioningActionString):
+    def generateExplanationString(self,naoActionString,userQuestioningActionString,currentWorldModel):
         if (naoActionString == userQuestioningActionString):
             return
-        world = self.world.getWorld()
+        world = currentWorldModel
         if(self.findClause(world[naoActionString],world[userQuestioningActionString])==-1):
             return "As " + userQuestioningActionString + " was equally preferable to " + naoActionString + ", " + naoActionString + " was chosen randomly."
         action_list = []

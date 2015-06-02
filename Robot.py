@@ -10,7 +10,8 @@ class Robot:
         self.textFileReader.readData()
 
     def performActions(self):
-        actionlist = self.ethicalAgent.mySorted(self.world.getWorld())
+        currentWorld = self.world.getWorld()
+        actionlist = self.ethicalAgent.mySorted(currentWorld)
         print actionlist
         action = actionlist[0][0]
         if action == 'remind':
@@ -25,9 +26,9 @@ class Robot:
             print "warning"
 
     #Justify action
-        print self.ethicalAgent.generateExplanationString(action, 'remind')
-        print self.ethicalAgent.generateExplanationString(action, 'seek task')
-        print self.ethicalAgent.generateExplanationString(action, 'charge')
-        print self.ethicalAgent.generateExplanationString(action, 'warn')
-        print self.ethicalAgent.generateExplanationString(action, 'notify')
+        print self.ethicalAgent.generateExplanationString(action, 'remind',currentWorld)
+        print self.ethicalAgent.generateExplanationString(action, 'seek task',currentWorld)
+        print self.ethicalAgent.generateExplanationString(action, 'charge',currentWorld)
+        print self.ethicalAgent.generateExplanationString(action, 'warn',currentWorld)
+        print self.ethicalAgent.generateExplanationString(action, 'notify',currentWorld)
         print
