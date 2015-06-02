@@ -24,7 +24,7 @@ class Robot:
         if action == 'warn':
             print "warning"
 
-
+    #Justify action
         print self.ethicalAgent.generateExplanationString(action, 'remind')
         print self.ethicalAgent.generateExplanationString(action, 'seek task')
         print self.ethicalAgent.generateExplanationString(action, 'charge')
