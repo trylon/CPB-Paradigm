@@ -124,22 +124,20 @@ class EthicalAgent:
                 elif action_value > question_value:#question_value must be neg
                     question_dissatisfy_list.append(duty_name)
         if(len(question_satisfy_list)!=0):
-            explanation += ("Although " + userQuestioningActionString + " satisfies " + " and ".join(question_satisfy_list) +
-                            " more than " + naoActionString + ", ")
+            explanation += ("Although " + userQuestioningActionString + " satisfies " +
+                            " and ".join(question_satisfy_list) + ", ")
         if(len(action_dissatisfy_list)!=0):
             if len(explanation)==0:
                 explanation += "Although "
             else:
                 explanation+= "and "
-            explanation += (naoActionString + " violates " + " and ".join(action_dissatisfy_list) + " more than " +
-                            userQuestioningActionString + ", ")
+            explanation += (naoActionString + " violates " + " and ".join(action_dissatisfy_list) + ", ")
         if(len(question_dissatisfy_list)!=0):
             if len(explanation)==0:
                 explanation += (capitalize(userQuestioningActionString) + " violates " +
-                                " and ".join(question_dissatisfy_list) + " more than " + naoActionString)
+                                " and ".join(question_dissatisfy_list))
             else:
-                explanation += (userQuestioningActionString + " violates " + " and ".join(question_dissatisfy_list) +
-                                " more than " + naoActionString)
+                explanation += (userQuestioningActionString + " violates " + " and ".join(question_dissatisfy_list))
             if(len(action_satisfy_list)!=0):
                 explanation += " and "
         if(len(action_satisfy_list)!=0):
@@ -147,8 +145,7 @@ class EthicalAgent:
                 explanation += (capitalize(userQuestioningActionString) + " does not satisfy anything better than " +
                                 naoActionString)
             else:
-                explanation += (naoActionString + " satisfies " + " and ".join(action_satisfy_list) +
-                                " better than " + userQuestioningActionString)
+                explanation += (naoActionString + " satisfies " + " and ".join(action_satisfy_list))
         return explanation
 
         # {'remind': [1, -1, 0, -1, 0], 'seek task':[1, -1, 0, -1, 0], 'charge':[-1, 1, 0, -1, 0],'notify':[-1, 0, 0, -1, 0]}
