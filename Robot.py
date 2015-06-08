@@ -36,17 +36,17 @@ class Robot:
 
     #Find justifying principle clause
         print 'Justifying Clauses:'
-        print 'remind:',
-        print self.ethicalAgent.principal[self.ethicalAgent.findClause(currentWorld[action],currentWorld['remind'])]
-        print 'seek task:',
-        print self.ethicalAgent.principal[self.ethicalAgent.findClause(currentWorld[action],currentWorld['seek task'])]
-        print 'charge:',
-        print self.ethicalAgent.principal[self.ethicalAgent.findClause(currentWorld[action],currentWorld['charge'])]
-        print 'warn:',
-        print self.ethicalAgent.principal[self.ethicalAgent.findClause(currentWorld[action],currentWorld['warn'])]
-        print 'notify:',
-        print self.ethicalAgent.principal[self.ethicalAgent.findClause(currentWorld[action],currentWorld['notify'])]
+        for i in self.world.actionNames:
+            print i,
+            print '\t: ',
+            clause_index = self.ethicalAgent.findClause(currentWorld[action],currentWorld[i])
+            if clause_index == -1:
+                print '\tNone'
+            else:
+                print self.ethicalAgent.principal[clause_index]
         print
+
+  
 
     #Justify action
         # print self.ethicalAgent.generateExplanationString(action, 'remind',currentWorld)

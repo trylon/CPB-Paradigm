@@ -1,6 +1,7 @@
 class WorldModel:
     def __init__(self):
         self.changeCount = -1
+        self.actionNames =  ['charge','remind','warn','seek task','notify']
         #[follow-orders, readiness, harm to patient, possible good to patient, non-interaction. autonomy]
         self._actions = [{
             #at charging station, charging, med to prevent harm

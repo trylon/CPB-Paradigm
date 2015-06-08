@@ -20,7 +20,6 @@ class EthicalAgent:
         self.dutyNames = ['maximize follow orders', 'maximize readiness', 'minimize harm to patient', 'maximize good to patient', 'minimize non-interaction','maximize autonomy']
         self.dutyPossibleMinimums = [-2, -4, -4, -2, -4, -4]
 
-
         # self.principal = [[1, -4, -4, -2, -4],
         #                   [-2, -3, -4, 1, -4],
         #                   [-2, -4, 1, -2, -4],
