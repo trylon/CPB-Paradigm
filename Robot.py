@@ -1,6 +1,7 @@
 from EthicalAgent import EthicalAgent
 from WorldModel import WorldModel
 from TextFileReader import TextFileReader
+from operator import sub
 
 class Robot:
     def __init__(self):
@@ -35,7 +36,7 @@ class Robot:
         #     print "warning"
 
     #Find justifying principle clause
-        print 'Justifying Clauses:'
+        print 'Justifying Clauses with Differences:'
         for i in self.world.actionNames:
             print i,
             print '\t: ',
@@ -43,7 +44,9 @@ class Robot:
             if clause_index == -1:
                 print '\tNone'
             else:
-                print self.ethicalAgent.principal[clause_index]
+                print self.ethicalAgent.principal[clause_index],
+                print " ",
+                print map(sub, currentWorld[action], currentWorld[i])
         print
 
   
