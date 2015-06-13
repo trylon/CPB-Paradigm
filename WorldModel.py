@@ -1,6 +1,6 @@
 class WorldModel:
     def __init__(self):
-        self.changeCount = -1
+        self.count = -1
         self.actionNames =  ['charge','remind','warn','seek task','notify']
         #[follow-orders, readiness, harm to patient, possible good to patient, non-interaction. autonomy]
         self._actions = [{
@@ -45,5 +45,5 @@ class WorldModel:
 
         ]
     def getWorld(self):
-        self.changeCount = self.changeCount + 1
-        return self._actions[self.changeCount%len(self._actions)]
+        self.count = self.count + 1
+        return self._actions[self.count%len(self._actions)]
