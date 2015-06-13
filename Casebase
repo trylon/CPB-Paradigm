@@ -9,17 +9,16 @@ Actions:
 	Duties:
 		Maximize Follow Orders value: 1
 		Maximize Readiness value: -1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 0
 	Charge
 	Duties:
 		Maximize Follow Orders value: -1
 		Maximize Readiness value: 1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 0
-
 [[1 -1 0 0 0] [-1 1 0 0 0]]
 
 Case: Reminding is not required
@@ -34,17 +33,16 @@ Actions:
 	Duties:
 		Maximize Follow Orders value: -1
 		Maximize Readiness value: -1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 0
 	Charge
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: 1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 0
-
 [[-1 -1 0 0 0] [0 1 0 0 0]]
 
 Case: No reminders to give
@@ -57,42 +55,17 @@ Actions:
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: -1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 0
 	Charge
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: 1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 0
-
 [[0 -1 0 0 0] [0 1 0 0 0]]
-
-Case: Prevent harm
-Description: The patient has refused to take a medication, when reminded to do so, and he will be harmed if he doesn't take it at this time.  Should the oversee be notified or should the agent return to charging station.
-Correct Action: Notify
-Features:
-	Absence of 1 degree(s) of Harm To Patient in Notify
-	Presence of 1 degree(s) of Readiness in Charge
-Actions:
-	Notify
-	Duties:
-		Maximize Follow Orders value: 0
-		Maximize Readiness value: -1
-		Minimize Harm To Patient value: 1
-		Maximize Possible Good value: 0
-		Minimize Non-Interaction value: 0
-	Charge
-	Duties:
-		Maximize Follow Orders value: 0
-		Maximize Readiness value: 1
-		Minimize Harm To Patient value: -1
-		Maximize Possible Good value: 0
-		Minimize Non-Interaction value: 0
-
-[[0 -1 1 0 0] [0 1 -1 0 0]]
 
 Case: Seeking task is best
 Description: The robot is sufficiently charged and no tasks are pending.  The robot should seek a task.
@@ -105,17 +78,16 @@ Actions:
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: -1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 1
 		Minimize Non-Interaction value: 0
 	Charge
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: 1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: -1
 		Minimize Non-Interaction value: 0
-
 [[0 -1 0 1 0] [0 1 0 -1 0]]
 
 Case: Low battery, do not seek task
@@ -129,93 +101,162 @@ Actions:
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: -2
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 1
 		Minimize Non-Interaction value: 0
 	Charge
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: 2
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: -1
 		Minimize Non-Interaction value: 0
-
 [[0 -2 0 1 0] [0 2 0 -1 0]]
 
-Case: Notify for non-interaction
-Description: Robot has reminded its charge to take a medication and gets no response.  Should the robot notify the overseer or charge.
-Correct Action: Notify
+Case: Warn to prevent harm
+Description: The patient has refused to take a medication, when reminded to do so, and he will be harmed if he doesn't take it at this time.  Should the patient be warned or should the agent return to charging station.
+Correct Action: Warn
+Features:
+	Absence of 1 degree(s) of Harm in Warn
+	Presence of 1 degree(s) of Readiness in Charge
+Actions:
+	Warn
+	Duties:
+		Maximize Follow Orders value: 0
+		Maximize Readiness value: -1
+		Minimize Harm value: 1
+		Maximize Possible Good value: 0
+		Minimize Non-Interaction value: 0
+	Charge
+	Duties:
+		Maximize Follow Orders value: 0
+		Maximize Readiness value: 1
+		Minimize Harm value: -1
+		Maximize Possible Good value: 0
+		Minimize Non-Interaction value: 0
+[[0 -1 1 0 0] [0 1 -1 0 0]]
+
+Case: Warn for non-interation
+Description: Robot has reminded its charge to take a medication and gets no response.  Should the robot warn the patient or charge.
+Correct Action: Warn
 Features:
 	Presence of 1 degree(s) of Non-Interaction in Charge
 	Presence of 1 degree(s) of Readiness in Charge
 Actions:
-	Notify
+	Warn
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: -1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: 1
 	Charge
 	Duties:
 		Maximize Follow Orders value: 0
 		Maximize Readiness value: 1
-		Minimize Harm To Patient value: 0
+		Minimize Harm value: 0
 		Maximize Possible Good value: 0
 		Minimize Non-Interaction value: -1
-
 [[0 -1 0 0 1] [0 1 0 0 -1]]
+
+Case: Notify to prevent further harm
+Description: 
+Correct Action: Notify
+Features:
+	Presence of 2 degree(s) of Harm in Charge
+	Presence of 1 degree(s) of Readiness in Charge
+Actions:
+	Notify
+	Duties:
+		Maximize Follow Orders value: 0
+		Maximize Readiness value: -1
+		Minimize Harm value: 2
+		Maximize Possible Good value: 0
+		Minimize Non-Interaction value: 0
+	Charge
+	Duties:
+		Maximize Follow Orders value: 0
+		Maximize Readiness value: 1
+		Minimize Harm value: -2
+		Maximize Possible Good value: 0
+		Minimize Non-Interaction value: 0
+[[0 -1 2 0 0][0 1 -2 0 0]]
+
+Case: Notify to prevent further non-interaction
+Description: 
+Correct Action: Notify
+Features:
+	Presence of 2 degree(s) of Non-Interaction in Charge
+	Presence of 1 degree(s) of Readiness in Charge
+Actions:
+	Notify
+	Duties:
+		Maximize Follow Orders value: 0
+		Maximize Readiness value: -1
+		Minimize Harm value: 0
+		Maximize Possible Good value: 0
+		Minimize Non-Interaction value: 2
+	Charge
+	Duties:
+		Maximize Follow Orders value: 0
+		Maximize Readiness value: 1
+		Minimize Harm value: 0
+		Maximize Possible Good value: 0
+		Minimize Non-Interaction value: -2
+[[0 -1 0 0 2][0 1 0 0 -2]]
 
 ========
 Principle
 ========
 
 An action is ethically preferable to another if it
-	satisfies the duty to maximize Follow Orders by a value at least 1 more
- or
-	satisfies the duty to minimize Harm to Patient by a value at least 1 more
- or
-	satisfies the duty to minimize Non-interaction by a value at least 1 more
- or
+	satisfies the duty to maximize Follow Orders by a value at least 1 more  
+ or 
 	does not violate the duty to maximize Readiness by a value greater than 3 more and
-	satisfies the duty to maximize Possible Good by a value at least 1 more
- or
+	satisfies the duty to maximize Possible Good by a value at least 1 more  
+ or 
+	satisfies the duty to minimize Harm by a value at least 1 more  
+ or 
+	satisfies the duty to minimize Non-Interaction by a value at least 1 more  
+ or 
+	satisfies the duty to maximize Readiness by a value at least 3 more  
+ or 
 	does not violate the duty to maximize Follow Orders by a value greater than 1 more and
 	does not violate the duty to maximize Readiness by a value greater than 1 more and
-	does not violate the duty to minimize Harm to Patient by a value greater than 1 more and
+	does not violate the duty to minimize Harm by a value greater than 1 more and
 	does not violate the duty to maximize Possible Good by a value greater than 1 more and
-	does not violate the duty to minimize Non-interaction by a value greater than 1 more
- or
-	satisfies the duty to maximize Readiness by a value at least 3 more
+	does not violate the duty to minimize Non-Interaction by a value greater than 1 more 
 
-Follow Orders-Diff >= 1
+Follow Orders-Diff >= 1 
 or
-Harm to Patient-Diff >= 1
+Readiness-Diff >= -3 and Possible Good-Diff >= 1 
 or
-Non-interaction-Diff >= 1
+Harm-Diff >= 1 
 or
-Readiness-Diff >= -3 and Possible Good-Diff >= 1
+Non-Interaction-Diff >= 1 
 or
-Follow Orders-Diff >= -1 and Readiness-Diff >= -1 and Harm to Patient-Diff >= -1 and Possible Good-Diff >= -1 and Non-interaction-Diff >= -1
+Readiness-Diff >= 3 
 or
-Readiness-Diff >= 3
+Follow Orders-Diff >= -1 and Readiness-Diff >= -1 and Harm-Diff >= -1 and Possible Good-Diff >= -1 and Non-Interaction-Diff >= -1 
 
 
-(((DUTY1 1) (DUTY2 -4) (DUTY3 -2) (DUTY4 -2) (DUTY5 -2))
-((DUTY1 -2) (DUTY2 -4) (DUTY3 1) (DUTY4 -2) (DUTY5 -2))
-((DUTY1 -2) (DUTY2 -4) (DUTY3 -2) (DUTY4 -2) (DUTY5 1))
-((DUTY1 -2) (DUTY2 -3) (DUTY3 -2) (DUTY4 1) (DUTY5 -2))
-((DUTY1 -1) (DUTY2 -1) (DUTY3 -1) (DUTY4 -1) (DUTY5 -1))
-((DUTY1 -2) (DUTY2 3) (DUTY3 -2) (DUTY4 -2) (DUTY5 -2)))
+(((DUTY1 1) (DUTY2 -4) (DUTY3 -4) (DUTY4 -2) (DUTY5 -4))
+ ((DUTY1 -2) (DUTY2 -3) (DUTY3 -4) (DUTY4 1) (DUTY5 -4)) 
+ ((DUTY1 -2) (DUTY2 -4) (DUTY3 1) (DUTY4 -2) (DUTY5 -4)) 
+ ((DUTY1 -2) (DUTY2 -4) (DUTY3 -4) (DUTY4 -2) (DUTY5 1)) 
+ ((DUTY1 -2) (DUTY2 3) (DUTY3 -4) (DUTY4 -2) (DUTY5 -4)) 
+ ((DUTY1 -1) (DUTY2 -1) (DUTY3 -1) (DUTY4 -1) (DUTY5 -1)))
 DUTY1 = maximize Follow Orders  [range: -1 to 1]
 DUTY2 = maximize Readiness  [range: -2 to 2]
-DUTY3 = minimize Harm to Patient  [range: -1 to 1]
+DUTY3 = minimize Harm  [range: -2 to 2]
 DUTY4 = maximize Possible Good  [range: -1 to 1]
-DUTY5 = minimize Non-interaction  [range: -1 to 1]
+DUTY5 = minimize Non-Interaction  [range: -2 to 2]
 
-[[1 -4 -2 -2 -2]
- [-2 -4 1 -2 -2]
- [-2 -4 -2 -2 1]
- [-2 -3 -2 1 -2]
- [-1 -1 -1 -1 -1]
- [-2 3 -2 -2 -2]]
+[[1 -4 -4 -2 -4]
+ [-2 -3 -4 1 -4]
+ [-2 -4 1 -2 -4]
+ [-2 -4 -4 -2 1]
+ [-2 3 -4 -2 -4]
+ [-1 -1 -1 -1 -1]]
+
+
