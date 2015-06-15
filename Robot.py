@@ -7,7 +7,7 @@ class Robot:
     def __init__(self):
         self.ethicalAgent = EthicalAgent()
         self.world = WorldModel()
-        self.textFileReader = TextFileReader('OldCasebase')
+        self.textFileReader = TextFileReader('Casebase')
         self.textFileReader.readData()
 
     def performActions(self):
