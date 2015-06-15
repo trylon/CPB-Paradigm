@@ -7,7 +7,7 @@ class Robot:
     def __init__(self):
         self.ethicalAgent = EthicalAgent()
         self.world = WorldModel()
-        self.textFileReader = TextFileReader('Casebase')
+        self.textFileReader = TextFileReader('OldCasebase')
         self.textFileReader.readData()
 
     def performActions(self):
@@ -56,7 +56,8 @@ class Robot:
                 print " ",
                 print self.ethicalAgent.principal[clause_index]
         print
-
+        print self.textFileReader.dutyMinimums,self.textFileReader.dutyNames
+        print self.textFileReader.principle
     #todo: justification strategy [work in progress]
         #if all justifying clauses are the same,
         #  state all duties values in the clause that are not minimums and have positive values in the chosen action
