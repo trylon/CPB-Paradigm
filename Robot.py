@@ -1,14 +1,12 @@
 from EthicalAgent import EthicalAgent
 from WorldModel import WorldModel
-from TextFileReader import TextFileReader
 from operator import sub
 
 class Robot:
     def __init__(self):
         self.ethicalAgent = EthicalAgent()
         self.world = WorldModel()
-        self.textFileReader = TextFileReader('Casebase')
-        self.textFileReader.readData()
+        self.ethicalAgent.readData('Casebase')
 
     def performActions(self):
         currentWorld = self.world.getWorld()
@@ -21,7 +19,7 @@ class Robot:
         print "Duty Minimums:",
         print self.ethicalAgent.dutyPossibleMinimums
         print 'Principle:',
-        print self.ethicalAgent.principal
+        print self.ethicalAgent.principle
         print 'Sorted Actions:',
         print actionlist
         action = actionlist[0][0]
@@ -54,10 +52,10 @@ class Robot:
                 print " ",
                 print map(sub, currentWorld[action], currentWorld[i]),
                 print " ",
-                print self.ethicalAgent.principal[clause_index]
+                print self.ethicalAgent.principle[clause_index]
         print
-        print self.textFileReader.dutyMinimums,self.textFileReader.dutyNames
-        print self.textFileReader.principle
+        print self.ethicalAgent.dutyPossibleMinimums,self.ethicalAgent.dutyNames
+        print self.ethicalAgent.principle
     #todo: justification strategy [work in progress]
         #if all justifying clauses are the same,
         #  state all duties values in the clause that are not minimums and have positive values in the chosen action
