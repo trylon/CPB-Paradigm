@@ -35,7 +35,7 @@ class EthicalAgent:
         action1 = action1tup[1]
         action2 = action2tup[1]
         # print action1
-        #print action2
+        # print action2
         PosCase = map(sub, action1, action2)
         NegCase = map(sub, action2, action1)
         actionPrincipal = self.principle
