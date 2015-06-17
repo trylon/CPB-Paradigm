@@ -54,8 +54,7 @@ class Robot:
                 print " ",
                 print self.ethicalAgent.principle[clause_index]
         print
-        print self.ethicalAgent.dutyPossibleMinimums,self.ethicalAgent.dutyNames
-        print self.ethicalAgent.principle
+
     #todo: justification strategy [work in progress]
         #if all justifying clauses are the same,
         #  state all duties values in the clause that are not minimums and have positive values in the chosen action
