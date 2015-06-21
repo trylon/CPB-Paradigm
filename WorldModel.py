@@ -58,6 +58,25 @@ class WorldModel:
             'engage':   [ 0,-1, 1,-1, 0, 1, 1]  # engage is correct due to persistent immobility
         }
         ]
+
+    # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged
+    # [False,True, False,False,False,False,False,False,False]
+    def findWorld(self,perceptionValues):
+        if(perceptionValues[1]):
+            return self._actions[0]
+        elif(perceptionValues[0]):
+            return self._actions[1]
+        elif(perceptionValues[2] and perceptionValues[3]):
+            return self._actions[2]
+        elif(perceptionValues[4]):
+            return self._actions[3]
+        elif(perceptionValues[2] and perceptionValues[5]):
+            return self._actions[4]
+        elif(perceptionValues[5] and perceptionValues[6]):
+            return self._actions[5]
+        elif(perceptionValues[7]):
+            return self._actions[6]
+
     def getWorld(self):
         self.count = self.count + 1
         return self._actions[self.count%len(self._actions)]
