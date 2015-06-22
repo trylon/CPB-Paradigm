@@ -59,6 +59,29 @@ class WorldModel:
         }
         ]
 
+    def generateWorld(self,perceptionValues):
+        world = {
+            'charge':   [0, 0, 0,0, 0, 0, 0],
+            'remind':   [ 0,0, 0,0, 0, 0, 0],
+            'warn':     [0, 0, 0,0, 0,0, 0],
+            'seek task':[0,0, 0, 0, 0, 0, 0],
+            'notify':   [0, 0, 0,0, 0,0, 0],
+            'engage':   [0,0, 0,0, 0, 0, 0]
+        }
+        if(perceptionValues[1]): # if it is medication reminder time
+            for action in world:
+                if action == 'remind':
+                    world[action][0] = 1
+                else:
+                    world[action][0] = -1
+        else: # medication reminder time perception is false
+            for action in world:
+                if action == 'remind':
+                    world[action][0] = -1
+                else:
+                    world[action][0] = 0
+        return world
+
     # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged
     # [False,True, False,False,False,False,False,False,False]
     def findWorld(self,perceptionValues):
@@ -76,6 +99,10 @@ class WorldModel:
             return self._actions[5]
         elif(perceptionValues[7]):
             return self._actions[6]
+
+    def getWorld(self,perceptionValues):
+        # or: perceptionValues = some method that returns them
+        return findWorld(perceptionValues)
 
     def getWorld(self):
         self.count = self.count + 1
