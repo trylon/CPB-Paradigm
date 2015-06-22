@@ -68,14 +68,13 @@ class WorldModel:
             'notify':   [0, 0, 0,0, 0,0, 0],
             'engage':   [0,0, 0,0, 0, 0, 0]
         }
-        if(perceptionValues[1]): # if it is medication reminder time
-            for action in world:
+        for action in world:
+            if(perceptionValues[1]): # if it is medication reminder time
                 if action == 'remind':
                     world[action][0] = 1
                 else:
                     world[action][0] = -1
-        else: # medication reminder time perception is false
-            for action in world:
+            else: # medication reminder time perception is false
                 if action == 'remind':
                     world[action][0] = -1
                 else:
