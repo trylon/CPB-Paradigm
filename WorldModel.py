@@ -61,15 +61,15 @@ class WorldModel:
 
     def generateWorld(self,perceptionValues):
         world = {
-            'charge':   [0, 0, 0,0, 0, 0, 0],
-            'remind':   [ 0,0, 0,0, 0, 0, 0],
-            'warn':     [0, 0, 0,0, 0,0, 0],
-            'seek task':[0,0, 0, 0, 0, 0, 0],
-            'notify':   [0, 0, 0,0, 0,0, 0],
-            'engage':   [0,0, 0,0, 0, 0, 0]
+            'charge':   [0, 0, 0, 0, 0, 0, 0],
+            'remind':   [0, 0, 0, 0, 0, 0, 0],
+            'warn':     [0, 0, 0, 0, 0, 0, 0],
+            'seek task':[0, 0, 0, 0, 0, 0, 0],
+            'notify':   [0, 0, 0, 0, 0, 0, 0],
+            'engage':   [0, 0, 0, 0, 0, 0, 0]
         }
         for action in world:
-            if(perceptionValues[1]): # if it is medication reminder time
+            if perceptionValues[1]: # if it is medication reminder time
                 if action == 'remind':
                     world[action][0] = 1
                 else:
@@ -77,8 +77,31 @@ class WorldModel:
             else: # medication reminder time perception is false
                 if action == 'remind':
                     world[action][0] = -1
+            if perceptionValues[0]: # if low battery
+                if action == 'remind' or action == 'seek task' or action == 'engage':
+                    world[action][1] = -2
+                elif action == 'charge':
+                    world[action][1] = 2
+            else: # not low battery
+                if action == 'charge':
+                    world[action][1] = 1
+                elif action == 'remind' or action == 'seek task' or action == 'engage':
+                    world[action][1] = -1
+            if perceptionValues[7]: # persistent immobility is true
+                if action == 'warn' or action == 'engage' or action == 'notify':
+                    world[action][6] = 1
+                    world['engage'][5] = 1
                 else:
-                    world[action][0] = 0
+                    world[action][6] = -1
+        world['warn'][5] = -1
+        world['notify'][5] = -2
+        world['seek task'][3] = 1
+        world['remind'][3] = -1
+        world['charge'][3] = -1
+        world['engage'][3] = -1
+        world['warn'][3] = -1
+        world['notify'][3] = -1
+
         return world
 
     # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged
