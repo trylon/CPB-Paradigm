@@ -69,6 +69,7 @@ class WorldModel:
             'engage':   [0, 0, 0, 0, 0, 0, 0]
         }
         for action in world:
+            # maximizing honoring commitments
             if perceptionValues[1]: # if it is medication reminder time
                 if action == 'remind':
                     world[action][0] = 1
@@ -77,6 +78,7 @@ class WorldModel:
             else: # medication reminder time perception is false
                 if action == 'remind':
                     world[action][0] = -1
+            # maximize readiness
             if perceptionValues[0]: # if low battery
                 if action == 'remind' or action == 'seek task' or action == 'engage':
                     world[action][1] = -2
@@ -87,12 +89,14 @@ class WorldModel:
                     world[action][1] = 1
                 elif action == 'remind' or action == 'seek task' or action == 'engage':
                     world[action][1] = -1
+            # minimize persistent immobility
             if perceptionValues[7]: # persistent immobility is true
                 if action == 'warn' or action == 'engage' or action == 'notify':
                     world[action][6] = 1
-                    world['engage'][5] = 1
+                    world['engage'][5] = 1  # maximize autonomy
                 else:
                     world[action][6] = -1
+            # minimize harm
             if perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and not perceptionValues[6]:
                 if action == 'warn' or action == 'notify':
                     world[action][4] = 1
@@ -105,15 +109,39 @@ class WorldModel:
                     world[action][4] = 2
                 else:
                     world[action][4] = -2
+            # minimize harm to patients
+            if perceptionValues[7]:
+                if action == 'notify' or action == 'engage':
+                    world[action][2] = 1
+                else:
+                    world[action][2] = -1
+            elif perceptionValues[2] and perceptionValues[3] and not perceptionValues[6] and not perceptionValues[5]:
+                if action == 'warn' or action == 'notify':
+                    world[action][2] = 1
+                else:
+                    world[action][2] = -1
+            elif perceptionValues[2] and not perceptionValues[3] and not perceptionValues[6] and perceptionValues[5]:
+                if action == 'warn' or action == 'notify':
+                    world[action][2] = 1
+                elif action == 'engage':
+                    world[action][2] = 0
+                else:
+                    world[action][2] = -1
+            elif perceptionValues[2] and not perceptionValues[3] and perceptionValues[6] and perceptionValues[5]:
+                if action == 'notify':
+                    world[action][2] = 2
+                else:
+                    world[action][2] = -2
+        # maximize autonomy
         world['warn'][5] = -1
         world['notify'][5] = -2
+        # maximize good
         world['seek task'][3] = 1
         world['remind'][3] = -1
         world['charge'][3] = -1
         world['engage'][3] = -1
         world['warn'][3] = -1
         world['notify'][3] = -1
-
         return world
 
     # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged
