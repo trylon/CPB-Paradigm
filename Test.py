@@ -12,7 +12,8 @@ robot.performActions()
 
 world = WorldModel()
 perception = [False,False,False,False,False,False,False,False,False]
-perception2 = [True,True,False,False,False,False,False,True,False]
-print world.findWorld(perception)
+perception2 = [True,True,True,False,False,True,False,True,False]
+perception3 = [False,False,True,False,False,True,True,False,False]
 print world.generateWorld(perception)
 print world.generateWorld(perception2)
+print world.generateWorld(perception3)

@@ -93,6 +93,18 @@ class WorldModel:
                     world['engage'][5] = 1
                 else:
                     world[action][6] = -1
+            if perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and not perceptionValues[6]:
+                if action == 'warn' or action == 'notify':
+                    world[action][4] = 1
+                else:
+                    world[action][4] = -1
+            elif perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and perceptionValues[6]:
+                if action == 'warn':
+                    world[action][4] = -1
+                elif action == 'notify':
+                    world[action][4] = 2
+                else:
+                    world[action][4] = -2
         world['warn'][5] = -1
         world['notify'][5] = -2
         world['seek task'][3] = 1
