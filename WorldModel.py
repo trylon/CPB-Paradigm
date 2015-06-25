@@ -97,12 +97,12 @@ class WorldModel:
                 else:
                     world[action][6] = -1
             # minimize harm
-            if perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and not perceptionValues[6]:
+            if perceptionValues[2] and (perceptionValues[5]) and not perceptionValues[6]: # got rid of perceptionValues[3] or...
                 if action == 'warn' or action == 'notify':
                     world[action][4] = 1
                 else:
                     world[action][4] = -1
-            elif perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and perceptionValues[6]:
+            elif not perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and perceptionValues[6]: # added not in front of perceptionValues[2]
                 if action == 'warn':
                     world[action][4] = -1
                 elif action == 'notify':
@@ -127,7 +127,7 @@ class WorldModel:
                     world[action][2] = 0
                 else:
                     world[action][2] = -1
-            elif perceptionValues[2] and not perceptionValues[3] and perceptionValues[6] and perceptionValues[5]:
+            elif not perceptionValues[2] and not perceptionValues[3] and perceptionValues[6] and perceptionValues[5]: # added not in front of perceptionValues[2]
                 if action == 'notify':
                     world[action][2] = 2
                 else:
