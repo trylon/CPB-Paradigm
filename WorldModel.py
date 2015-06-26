@@ -1,4 +1,6 @@
 class WorldModel:
+
+
     def __init__(self):
         self.count = -1
         self.actionNames =  ['charge','remind','warn','seek task','notify','engage']
@@ -60,6 +62,16 @@ class WorldModel:
         ]
 
     def generateWorld(self,perceptionValues):
+        #Perception constants
+        LOW_BATTERY = 0
+        MEDICATION_REMINDER_TIME = 1
+        REMINDED = 2
+        REFUSED_MEDIATION = 3
+        FULLY_CHARGED = 4
+        NO_INTERACTION = 5
+        WARNED = 6
+        PERSISTENT_IMMOBILITY = 7
+        ENGAGED = 8
         world = {
             'charge':   [0, 0, 0, 0, 0, 0, 0],
             'remind':   [0, 0, 0, 0, 0, 0, 0],
@@ -70,7 +82,7 @@ class WorldModel:
         }
         for action in world:
             # maximizing honoring commitments
-            if perceptionValues[1]: # if it is medication reminder time
+            if perceptionValues[MEDICATION_REMINDER_TIME]: # if it is medication reminder time
                 if action == 'remind':
                     world[action][0] = 1
                 else:
@@ -79,7 +91,7 @@ class WorldModel:
                 if action == 'remind':
                     world[action][0] = -1
             # maximize readiness
-            if perceptionValues[0]: # if low battery
+            if perceptionValues[LOW_BATTERY]: # if low battery
                 if action == 'remind' or action == 'seek task' or action == 'engage':
                     world[action][1] = -2
                 elif action == 'charge':
@@ -90,19 +102,19 @@ class WorldModel:
                 elif action == 'remind' or action == 'seek task' or action == 'engage':
                     world[action][1] = -1
             # minimize persistent immobility
-            if perceptionValues[7]: # persistent immobility is true
+            if perceptionValues[PERSISTENT_IMMOBILITY]: # persistent immobility is true
                 if action == 'warn' or action == 'engage' or action == 'notify':
                     world[action][6] = 1
                     world['engage'][5] = 1  # maximize autonomy
                 else:
                     world[action][6] = -1
             # minimize harm
-            if perceptionValues[2] and (perceptionValues[5]) and not perceptionValues[6]: # got rid of perceptionValues[3] or...
+            if perceptionValues[REMINDED] and (perceptionValues[NO_INTERACTION]) and not perceptionValues[WARNED]: # got rid of perceptionValues[3] or...
                 if action == 'warn' or action == 'notify':
                     world[action][4] = 1
                 else:
                     world[action][4] = -1
-            elif not perceptionValues[2] and (perceptionValues[3] or perceptionValues[5]) and perceptionValues[6]: # added not in front of perceptionValues[2]
+            elif not perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]: # added not in front of perceptionValues[2]
                 if action == 'warn':
                     world[action][4] = -1
                 elif action == 'notify':
@@ -110,24 +122,24 @@ class WorldModel:
                 else:
                     world[action][4] = -2
             # minimize harm to patients
-            if perceptionValues[7]:
+            if perceptionValues[PERSISTENT_IMMOBILITY]:
                 if action == 'notify' or action == 'engage':
                     world[action][2] = 1
                 else:
                     world[action][2] = -1
-            elif perceptionValues[2] and perceptionValues[3] and not perceptionValues[6] and not perceptionValues[5]:
+            elif perceptionValues[REMINDED] and perceptionValues[REFUSED_MEDIATION] and not perceptionValues[WARNED] and not perceptionValues[NO_INTERACTION]:
                 if action == 'warn' or action == 'notify':
                     world[action][2] = 1
                 else:
                     world[action][2] = -1
-            elif perceptionValues[2] and not perceptionValues[3] and not perceptionValues[6] and perceptionValues[5]:
+            elif perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and not perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]:
                 if action == 'warn' or action == 'notify':
                     world[action][2] = 1
                 elif action == 'engage':
                     world[action][2] = 0
                 else:
                     world[action][2] = -1
-            elif not perceptionValues[2] and not perceptionValues[3] and perceptionValues[6] and perceptionValues[5]: # added not in front of perceptionValues[2]
+            elif not perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]: # added not in front of perceptionValues[2]
                 if action == 'notify':
                     world[action][2] = 2
                 else:
