@@ -72,6 +72,16 @@ class WorldModel:
         WARNED = 6
         PERSISTENT_IMMOBILITY = 7
         ENGAGED = 8
+
+        #Duty constants
+        HONOR_COMMITMENTS = 0
+        MAINTAIN_READINESS = 1
+        HARM_TO_PATIENT = 2
+        GOOD_TO_PATIENT = 3
+        NON_INTERACTION = 4
+        RESPECT_AUTONOMY = 5
+        PREVENT_PERSISTENT_IMMOBILITY = 6
+
         world = {
             'charge':   [0, 0, 0, 0, 0, 0, 0],
             'remind':   [0, 0, 0, 0, 0, 0, 0],
@@ -84,76 +94,76 @@ class WorldModel:
             # maximizing honoring commitments
             if perceptionValues[MEDICATION_REMINDER_TIME]: # if it is medication reminder time
                 if action == 'remind':
-                    world[action][0] = 1
+                    world[action][HONOR_COMMITMENTS] = 1
                 else:
-                    world[action][0] = -1
+                    world[action][HONOR_COMMITMENTS] = -1
             else: # medication reminder time perception is false
                 if action == 'remind':
-                    world[action][0] = -1
+                    world[action][HONOR_COMMITMENTS] = -1
             # maximize readiness
             if perceptionValues[LOW_BATTERY]: # if low battery
                 if action == 'remind' or action == 'seek task' or action == 'engage':
-                    world[action][1] = -2
+                    world[action][MAINTAIN_READINESS] = -2
                 elif action == 'charge':
-                    world[action][1] = 2
+                    world[action][MAINTAIN_READINESS] = 2
             else: # not low battery
                 if action == 'charge':
-                    world[action][1] = 1
+                    world[action][MAINTAIN_READINESS] = 1
                 elif action == 'remind' or action == 'seek task' or action == 'engage':
-                    world[action][1] = -1
+                    world[action][MAINTAIN_READINESS] = -1
             # minimize persistent immobility
             if perceptionValues[PERSISTENT_IMMOBILITY]: # persistent immobility is true
                 if action == 'warn' or action == 'engage' or action == 'notify':
-                    world[action][6] = 1
-                    world['engage'][5] = 1  # maximize autonomy
+                    world[action][PREVENT_PERSISTENT_IMMOBILITY] = 1
+                    world['engage'][RESPECT_AUTONOMY] = 1  # maximize autonomy
                 else:
-                    world[action][6] = -1
+                    world[action][RESPECT_AUTONOMY] = -1
             # minimize harm
             if perceptionValues[REMINDED] and (perceptionValues[NO_INTERACTION]) and not perceptionValues[WARNED]: # got rid of perceptionValues[3] or...
                 if action == 'warn' or action == 'notify':
-                    world[action][4] = 1
+                    world[action][NON_INTERACTION] = 1
                 else:
-                    world[action][4] = -1
+                    world[action][NON_INTERACTION] = -1
             elif not perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]: # added not in front of perceptionValues[2]
                 if action == 'warn':
-                    world[action][4] = -1
+                    world[action][NON_INTERACTION] = -1
                 elif action == 'notify':
-                    world[action][4] = 2
+                    world[action][NON_INTERACTION] = 2
                 else:
-                    world[action][4] = -2
+                    world[action][NON_INTERACTION] = -2
             # minimize harm to patients
             if perceptionValues[PERSISTENT_IMMOBILITY]:
                 if action == 'notify' or action == 'engage':
-                    world[action][2] = 1
+                    world[action][HARM_TO_PATIENT] = 1
                 else:
-                    world[action][2] = -1
+                    world[action][HARM_TO_PATIENT] = -1
             elif perceptionValues[REMINDED] and perceptionValues[REFUSED_MEDIATION] and not perceptionValues[WARNED] and not perceptionValues[NO_INTERACTION]:
                 if action == 'warn' or action == 'notify':
-                    world[action][2] = 1
+                    world[action][HARM_TO_PATIENT] = 1
                 else:
-                    world[action][2] = -1
+                    world[action][HARM_TO_PATIENT] = -1
             elif perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and not perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]:
                 if action == 'warn' or action == 'notify':
-                    world[action][2] = 1
+                    world[action][HARM_TO_PATIENT] = 1
                 elif action == 'engage':
-                    world[action][2] = 0
+                    world[action][HARM_TO_PATIENT] = 0
                 else:
-                    world[action][2] = -1
+                    world[action][HARM_TO_PATIENT] = -1
             elif not perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]: # added not in front of perceptionValues[2]
                 if action == 'notify':
-                    world[action][2] = 2
+                    world[action][HARM_TO_PATIENT] = 2
                 else:
-                    world[action][2] = -2
+                    world[action][HARM_TO_PATIENT] = -2
         # maximize autonomy
-        world['warn'][5] = -1
-        world['notify'][5] = -2
+        world['warn'][RESPECT_AUTONOMY] = -1
+        world['notify'][RESPECT_AUTONOMY] = -2
         # maximize good
-        world['seek task'][3] = 1
-        world['remind'][3] = -1
-        world['charge'][3] = -1
-        world['engage'][3] = -1
-        world['warn'][3] = -1
-        world['notify'][3] = -1
+        world['seek task'][GOOD_TO_PATIENT] = 1
+        world['remind'][GOOD_TO_PATIENT] = -1
+        world['charge'][GOOD_TO_PATIENT] = -1
+        world['engage'][GOOD_TO_PATIENT] = -1
+        world['warn'][GOOD_TO_PATIENT] = -1
+        world['notify'][GOOD_TO_PATIENT] = -1
         return world
 
     # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged
