@@ -2,14 +2,6 @@ from Robot import Robot
 from WorldModel import WorldModel
 
 robot = Robot()
-robot.performActions()
-robot.performActions()
-robot.performActions()
-robot.performActions()
-robot.performActions()
-robot.performActions()
-robot.performActions()
-
 world = WorldModel()
 # remind is correct due to following orders, no chance of harm at this point
 perception1 = [False,True,False,False,False,False,False,False,False]
@@ -25,6 +17,13 @@ perception5 = [False,False,True,False,False,True,False,False,False]
 perception6 = [False,False,False,False,False,True,True,False,False]
 # engage is correct due to persistent immobility
 perception7 = [False,False,False,False,False,False,False,True,False]
+robot.performActions(perception1)
+robot.performActions(perception2)
+robot.performActions(perception3)
+robot.performActions(perception4)
+robot.performActions(perception5)
+robot.performActions(perception6)
+robot.performActions(perception7)
 print world.generateWorld(perception1)
 print world.generateWorld(perception2)
 print world.generateWorld(perception3)

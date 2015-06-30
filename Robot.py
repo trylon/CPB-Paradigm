@@ -8,12 +8,14 @@ class Robot:
         self.world = WorldModel()
         self.ethicalAgent.readData('Casebase')
 
-    def performActions(self):
-        currentWorld = self.world.getWorld()
+    def performActions(self, perceptions):
+        currentWorld = self.world.generateWorld(perceptions)
         actionlist = self.ethicalAgent.mySorted(currentWorld)
         print
-        print "World State ",
-        print self.world.count
+        print "Perceptions:",
+        print "low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged" #, at charging station"
+        print "Perception Values:",
+        print perceptions
         print "Duties:",
         print self.ethicalAgent.dutyNames
         print "Duty Minimums:",

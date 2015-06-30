@@ -72,6 +72,7 @@ class WorldModel:
         WARNED = 6
         PERSISTENT_IMMOBILITY = 7
         ENGAGED = 8
+        AT_CHARGING_STATION = 9
 
         #Duty constants
         HONOR_COMMITMENTS = 0
@@ -166,7 +167,7 @@ class WorldModel:
         world['notify'][GOOD_TO_PATIENT] = -1
         return world
 
-    # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged
+    # low battery, medication reminder time, reminded, refused medication, fully charged, no interaction, warned, persistent immobility, engaged, at charging station
     # [False,True, False,False,False,False,False,False,False]
     def findWorld(self,perceptionValues):
         if(perceptionValues[1]):
