@@ -29,16 +29,6 @@ class Robot:
         print action + " ",
         print currentWorld[action]
 
-        # if action == 'remind':
-        #     print "time to take your medication"
-        # if action == 'charge':
-        #     print "charging"
-        # if action == 'notify':
-        #     print "notifying the overseer"
-        # if action == 'seek task':
-        #     print "seeking task"
-        # if action == 'warn':
-        #     print "warning"
 
     #Find justifying principle clause
         print "-----------------------------------------------------------------------------------"
