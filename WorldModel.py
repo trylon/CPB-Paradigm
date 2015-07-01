@@ -119,13 +119,13 @@ class WorldModel:
                     world['engage'][RESPECT_AUTONOMY] = 1  # maximize autonomy
                 else:
                     world[action][RESPECT_AUTONOMY] = -1
-            # minimize harm
-            if perceptionValues[REMINDED] and (perceptionValues[NO_INTERACTION]) and not perceptionValues[WARNED]: # got rid of perceptionValues[3] or...
+            # minimize non-interaction
+            if perceptionValues[REMINDED] and perceptionValues[NO_INTERACTION] and not perceptionValues[WARNED]: # got rid of perceptionValues[REFUSED_MEDICATION] or...
                 if action == 'warn' or action == 'notify':
                     world[action][NON_INTERACTION] = 1
                 else:
                     world[action][NON_INTERACTION] = -1
-            elif not perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]: # added not in front of perceptionValues[2]
+            elif not perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]: # added not in front of perceptionValues[REMINDED]
                 if action == 'warn':
                     world[action][NON_INTERACTION] = -1
                 elif action == 'notify':
