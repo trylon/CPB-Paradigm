@@ -102,7 +102,9 @@ class WorldModel:
                 if action == 'remind':
                     world[action][HONOR_COMMITMENTS] = -1
             # maximize readiness
-            if perceptionValues[LOW_BATTERY]: # if low battery
+            if perceptionValues[FULLY_CHARGED]:
+                pass  # Do nothing, MAINTAIN_READINESS values already 0
+            elif perceptionValues[LOW_BATTERY]:  # if low battery
                 if action == 'remind' or action == 'seek task' or action == 'engage':
                     world[action][MAINTAIN_READINESS] = -2
                 elif action == 'charge':
