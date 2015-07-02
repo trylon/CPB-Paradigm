@@ -120,12 +120,12 @@ class WorldModel:
                 else:
                     world[action][RESPECT_AUTONOMY] = -1
             # minimize non-interaction
-            if perceptionValues[REMINDED] and perceptionValues[NO_INTERACTION] and not perceptionValues[WARNED]: # got rid of perceptionValues[REFUSED_MEDICATION] or...
+            if perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and not perceptionValues[WARNED]:
                 if action == 'warn' or action == 'notify':
                     world[action][NON_INTERACTION] = 1
                 else:
                     world[action][NON_INTERACTION] = -1
-            elif not perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]: # added not in front of perceptionValues[REMINDED]
+            elif (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]:
                 if action == 'warn':
                     world[action][NON_INTERACTION] = -1
                 elif action == 'notify':
@@ -150,7 +150,7 @@ class WorldModel:
                     world[action][HARM_TO_PATIENT] = 0
                 else:
                     world[action][HARM_TO_PATIENT] = -1
-            elif not perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]: # added not in front of perceptionValues[2]
+            elif not perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]: # added not in front of perceptionValues[REMINDED]
                 if action == 'notify':
                     world[action][HARM_TO_PATIENT] = 2
                 else:
