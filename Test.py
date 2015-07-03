@@ -18,7 +18,7 @@ perceptions = [
              # notify is correct due to non-interaction after warning
              [False, False, False, False, False, True, True, False, False],
              # engage is correct due to persistent immobility
-             [False, False, False, False, False, False, False, True, False]
+             [False, False, False, False, False, False, False, True, False],
               ]
 
 for p in perceptions:

@@ -62,7 +62,7 @@ class WorldModel:
         ]
 
     def generateWorld(self,perceptionValues):
-        #Perception constants
+        # Perception constants
         LOW_BATTERY = 0
         MEDICATION_REMINDER_TIME = 1
         REMINDED = 2
@@ -98,7 +98,7 @@ class WorldModel:
                     world[action][HONOR_COMMITMENTS] = 1
                 else:
                     world[action][HONOR_COMMITMENTS] = -1
-            else: # medication reminder time perception is false
+            else:  # medication reminder time perception is false
                 if action == 'remind':
                     world[action][HONOR_COMMITMENTS] = -1
             # maximize readiness
@@ -109,13 +109,13 @@ class WorldModel:
                     world[action][MAINTAIN_READINESS] = -2
                 elif action == 'charge':
                     world[action][MAINTAIN_READINESS] = 2
-            else: # not low battery
+            else:  # not low battery
                 if action == 'charge':
                     world[action][MAINTAIN_READINESS] = 1
                 elif action == 'remind' or action == 'seek task' or action == 'engage':
                     world[action][MAINTAIN_READINESS] = -1
             # minimize persistent immobility
-            if perceptionValues[PERSISTENT_IMMOBILITY]: # persistent immobility is true
+            if perceptionValues[PERSISTENT_IMMOBILITY]:  # persistent immobility is true
                 if action == 'warn' or action == 'engage' or action == 'notify':
                     world[action][PREVENT_PERSISTENT_IMMOBILITY] = 1
                     world['engage'][RESPECT_AUTONOMY] = 1  # maximize autonomy
