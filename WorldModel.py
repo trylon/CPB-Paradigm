@@ -30,12 +30,12 @@ class WorldModel:
             'notify':   [ 0, 0, 1,-1, 0,-2, 0],
             'engage':   [ 0,-1,-1,-1, 0, 0, 0]
         },{
-            'charge':   [ 0, 1, 0,-1, 0, 0, 0],
-            'remind':   [-1,-1, 0,-1, 0, 0, 0],
+            'charge':   [ 0, 0, 0,-1, 0, 0, 0],
+            'remind':   [-1, 0, 0,-1, 0, 0, 0],
             'warn':     [ 0, 0, 0,-1, 0,-1, 0],
-            'seek task':[ 0,-1, 0, 1, 0, 0, 0],   # seek task is correct since at charging station, fully charged, no med issue
+            'seek task':[ 0, 0, 0, 1, 0, 0, 0],   # seek task is correct since at charging station, fully charged, no med issue
             'notify':   [ 0, 0, 0,-1, 0,-2, 0],
-            'engage':   [ 0,-1, 0,-1, 0, 0, 0]
+            'engage':   [ 0, 0, 0,-1, 0, 0, 0]
         },{
             'charge':   [ 0, 1,-1,-1,-1, 0, 0],
             'remind':   [-1,-1,-1,-1,-1, 0, 0],
@@ -72,7 +72,7 @@ class WorldModel:
         WARNED = 6
         PERSISTENT_IMMOBILITY = 7
         ENGAGED = 8
-        AT_CHARGING_STATION = 9
+
 
         #Duty constants
         HONOR_COMMITMENTS = 0
