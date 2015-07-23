@@ -21,7 +21,7 @@ NON_INTERACTION = 4
 RESPECT_AUTONOMY = 5
 PREVENT_PERSISTENT_IMMOBILITY = 6
 
-def generate_worlds(perceptions, world_states, perception_names):
+def generate_worlds(perceptions, world_states, perception_names, deletelater):
     output.write('def get_world(perception):\n' +
                  '\t#Duty constants\n' +
                  '\tHONOR_COMMITMENTS = 0\n' +
@@ -52,6 +52,7 @@ def generate_world(perception, world_state, perception_name):
                  '\t\tworld_state["notify"][' + str(perception_name) + '] = ' + str(world_state["notify"][perception_name]) + '\n' +
                  '\t\tworld_state["engage"][' + str(perception_name) + '] = ' + str(world_state["engage"][perception_name]) + '\n')
 
+# code for creating worlds based on columns
 def get_duty_values(world_states, duty):  # returns a list of the list of values that relate to a duty
     values = []
     duty_values = []
@@ -62,24 +63,86 @@ def get_duty_values(world_states, duty):  # returns a list of the list of values
         values[:] = []
     return duty_values
 
-def odd_one_out(duty_values):
+def odd_one_out(duty_values):  # returns the index of the odd one
     test_duty_index = 0
     test_duty = duty_values[test_duty_index]
-    odd_one = 0
+    odd_one_index = 0
     in_duty = 1
     duty_values = duty_values[1:]
     for index, duty in enumerate(duty_values):
         if duty == test_duty:
             in_duty += 1
-            if odd_one and in_duty > 0:
-                return odd_one
+            if odd_one_index and in_duty > 0:
+                return odd_one_index
         else:
             in_duty -= 1
-            odd_one = index + 1
+            odd_one_index = index + 1
             if in_duty < 0:  # if the test_duty is the odd one
                 return test_duty_index
             elif in_duty > 1:
-                return odd_one
+                return odd_one_index
+
+def perception_differences(perceptions, odd_one_index):  # need index and value of perception
+    if odd_one_index is None:
+        return None
+    odd_one = perceptions[odd_one_index]
+    del perceptions[odd_one_index]
+    difference_string = ""
+    for index, odd_perception_value in enumerate(odd_one):
+        for perception in perceptions:
+            if odd_perception_value == perception[index]:
+                break
+            elif perception == perceptions[len(perceptions)-1]:
+                if odd_perception_value:
+                    if len(difference_string) > 0:
+                        difference_string += " and perception[" + str(index) + "]"
+                    else:
+                        difference_string += "perception[" + str(index) + "]"
+                else:
+                    if len(difference_string) > 0:
+                        difference_string += " and not perception[" + str(index) + "]"
+                    else:
+                        difference_string += "not perception[" + str(index) + "]"
+    perceptions.insert(odd_one_index, odd_one)
+    return difference_string
+
+def generate_worlds(perceptions, world_states, duty_names):
+        output.write('def get_world(perception):\n' +
+                 '\t#Duty constants\n' +
+                 '\tHONOR_COMMITMENTS = 0\n' +
+                 '\tMAINTAIN_READINESS = 1\n' +
+                 '\tHARM_TO_PATIENT = 2\n' +
+                 '\tGOOD_TO_PATIENT = 3\n' +
+                 '\tNON_INTERACTION = 4\n' +
+                 '\tRESPECT_AUTONOMY = 5\n' +
+                 '\tPREVENT_PERSISTENT_IMMOBILITY = 6\n' +
+                 '\tworld_state = ' + str({'charge':   [0, 0, 0, 0, 0, 0, 0],
+                                           'remind':   [0, 0, 0, 0, 0, 0, 0],
+                                           'warn':     [0, 0, 0, 0, 0, 0, 0],
+                                           'seek task':[0, 0, 0, 0, 0, 0, 0],
+                                           'notify':   [0, 0, 0, 0, 0, 0, 0],
+                                           'engage':   [0, 0, 0, 0, 0, 0, 0]}) + '\n')
+        for duty in duty_names:
+            duty_values = get_duty_values(world_states, duty)
+            if duty == NON_INTERACTION:
+                print duty_values
+            odd_one_index = odd_one_out(duty_values)
+            if duty == NON_INTERACTION:
+                print odd_one_index
+            if odd_one_index is None:
+                output.write('\tfor action, duty_value in zip(world_state, ' + str(duty_values[0]) + '):\n' +
+                             '\t\tworld_state[action][' + str(duty) + '] = duty_value\n')
+            else:
+                output.write('\tif ' + perception_differences(perceptions, odd_one_index) + ':\n' +
+                             '\t\tfor action, duty_value in zip(world_state, ' + str(duty_values[odd_one_index]) + '):\n' +
+                             '\t\t\tworld_state[action][' + str(duty) + '] = duty_value\n' +
+                             '\telse:\n' +
+                             '\t\tfor action, duty_value in zip(world_state, ' + str(duty_values[odd_one_index-1]) + '):\n' +
+                             '\t\t\tworld_state[action][' + str(duty) + '] = duty_value\n')
+        output.write('\treturn world_state')
+
+
+
 
 world_states = [{
             'charge':   [-1, 1, 0,-1, 0, 0, 0],
@@ -149,9 +212,13 @@ perceptions = [
              # engage is correct due to persistent immobility
              [False, False, False, False, False, False, False, True, False],
               ]
-Duty_names = [HONOR_COMMITMENTS, MAINTAIN_READINESS, HARM_TO_PATIENT, GOOD_TO_PATIENT, NON_INTERACTION,
+duty_names = [HONOR_COMMITMENTS, MAINTAIN_READINESS, HARM_TO_PATIENT, GOOD_TO_PATIENT, NON_INTERACTION,
                RESPECT_AUTONOMY, PREVENT_PERSISTENT_IMMOBILITY]
 
 #generate_worlds(perceptions, world_states, perception_names)
 
-print odd_one_out(get_duty_values(world_states,PREVENT_PERSISTENT_IMMOBILITY))
+
+print get_duty_values(world_states,NON_INTERACTION)
+print odd_one_out(get_duty_values(world_states,NON_INTERACTION))
+print perception_differences(perceptions,odd_one_out(get_duty_values(world_states,NON_INTERACTION)))
+generate_worlds(perceptions, world_states, duty_names)
