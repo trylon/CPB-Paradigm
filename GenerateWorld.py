@@ -52,6 +52,35 @@ def generate_world(perception, world_state, perception_name):
                  '\t\tworld_state["notify"][' + str(perception_name) + '] = ' + str(world_state["notify"][perception_name]) + '\n' +
                  '\t\tworld_state["engage"][' + str(perception_name) + '] = ' + str(world_state["engage"][perception_name]) + '\n')
 
+def get_duty_values(world_states, duty):  # returns a list of the list of values that relate to a duty
+    values = []
+    duty_values = []
+    for world in world_states:
+        for action in world:
+            values.append(world[action][duty])
+        duty_values.append(values[:])
+        values[:] = []
+    return duty_values
+
+def odd_one_out(duty_values):
+    test_duty_index = 0
+    test_duty = duty_values[test_duty_index]
+    odd_one = 0
+    in_duty = 1
+    duty_values = duty_values[1:]
+    for index, duty in enumerate(duty_values):
+        if duty == test_duty:
+            in_duty += 1
+            if odd_one and in_duty > 0:
+                return odd_one
+        else:
+            in_duty -= 1
+            odd_one = index + 1
+            if in_duty < 0:  # if the test_duty is the odd one
+                return test_duty_index
+            elif in_duty > 1:
+                return odd_one
+
 world_states = [{
             'charge':   [-1, 1, 0,-1, 0, 0, 0],
             'remind':   [ 1,-1, 0,-1, 0, 0, 0],  # remind is correct due to following orders, no chance of harm at this point
@@ -120,7 +149,9 @@ perceptions = [
              # engage is correct due to persistent immobility
              [False, False, False, False, False, False, False, True, False],
               ]
-perception_names = [HONOR_COMMITMENTS, MAINTAIN_READINESS, HARM_TO_PATIENT, GOOD_TO_PATIENT, NON_INTERACTION,
+Duty_names = [HONOR_COMMITMENTS, MAINTAIN_READINESS, HARM_TO_PATIENT, GOOD_TO_PATIENT, NON_INTERACTION,
                RESPECT_AUTONOMY, PREVENT_PERSISTENT_IMMOBILITY]
 
-generate_worlds(perceptions, world_states, perception_names)
+#generate_worlds(perceptions, world_states, perception_names)
+
+print odd_one_out(get_duty_values(world_states,PREVENT_PERSISTENT_IMMOBILITY))
