@@ -1,5 +1,17 @@
+
+
+
 class WorldModel:
 
+#given battery level(some number) is it low or not?  low varies based on task
+#scores? action needs number higher than default, each action needs different numbers. have a hierarchy of things to do, bot can do 2 things at once
+#what is the max battery level?
+#tell him we need a medication time in world model
+#reminded means that the task has been completed, said "time for meds"
+#medication refused =person said 'no',
+#no interaction needed from Vincent
+#engaged from Vincent
+#need to consider motor hot (minimize damage)<- perhaps this falls under maximize readiness?
 
     def __init__(self):
         self.count = -1
