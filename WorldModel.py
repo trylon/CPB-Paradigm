@@ -66,7 +66,7 @@ class WorldModel:
         LOW_BATTERY = 0
         MEDICATION_REMINDER_TIME = 1
         REMINDED = 2
-        REFUSED_MEDIATION = 3
+        REFUSED_MEDICATION = 3
         FULLY_CHARGED = 4
         NO_INTERACTION = 5
         WARNED = 6
@@ -122,12 +122,12 @@ class WorldModel:
                 else:
                     world[action][RESPECT_AUTONOMY] = -1
             # minimize non-interaction
-            if perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and not perceptionValues[WARNED]:
+            if perceptionValues[REMINDED] and (perceptionValues[REFUSED_MEDICATION] or perceptionValues[NO_INTERACTION]) and not perceptionValues[WARNED]:
                 if action == 'warn' or action == 'notify':
                     world[action][NON_INTERACTION] = 1
                 else:
                     world[action][NON_INTERACTION] = -1
-            elif (perceptionValues[REFUSED_MEDIATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]:
+            elif (perceptionValues[REFUSED_MEDICATION] or perceptionValues[NO_INTERACTION]) and perceptionValues[WARNED]:
                 if action == 'warn':
                     world[action][NON_INTERACTION] = -1
                 elif action == 'notify':
@@ -140,19 +140,19 @@ class WorldModel:
                     world[action][HARM_TO_PATIENT] = 1
                 else:
                     world[action][HARM_TO_PATIENT] = -1
-            elif perceptionValues[REMINDED] and perceptionValues[REFUSED_MEDIATION] and not perceptionValues[WARNED] and not perceptionValues[NO_INTERACTION]:
+            elif perceptionValues[REMINDED] and perceptionValues[REFUSED_MEDICATION] and not perceptionValues[WARNED] and not perceptionValues[NO_INTERACTION]:
                 if action == 'warn' or action == 'notify':
                     world[action][HARM_TO_PATIENT] = 1
                 else:
                     world[action][HARM_TO_PATIENT] = -1
-            elif perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and not perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]:
+            elif perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDICATION] and not perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]:
                 if action == 'warn' or action == 'notify':
                     world[action][HARM_TO_PATIENT] = 1
                 elif action == 'engage':
                     world[action][HARM_TO_PATIENT] = 0
                 else:
                     world[action][HARM_TO_PATIENT] = -1
-            elif not perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDIATION] and perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]: # added not in front of perceptionValues[REMINDED]
+            elif not perceptionValues[REMINDED] and not perceptionValues[REFUSED_MEDICATION] and perceptionValues[WARNED] and perceptionValues[NO_INTERACTION]: # added not in front of perceptionValues[REMINDED]
                 if action == 'notify':
                     world[action][HARM_TO_PATIENT] = 2
                 else:

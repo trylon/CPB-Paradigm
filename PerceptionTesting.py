@@ -1,9 +1,12 @@
 from Robot import Robot
 from WorldModel import WorldModel
+from PerceptionsGUI import PerceptionsGUI
 
 robot = Robot()
 world = WorldModel()
-
+GUI = PerceptionsGUI()
+GUI.run()
+'''
 perceptions = [
              # low battery, reminded and warned are true
              [True, False, True, False, False, False, True, False, False],
@@ -35,8 +38,9 @@ perceptions = [
              [False, False, False, False, True, False, True, False, False],
               ]
 
-for p in perceptions:
+for p in GUI.perceptions:
     robot.performActions(p)
 
-for p in perceptions:
+for p in GUI.perceptions:
     print world.generateWorld(p)
+'''
