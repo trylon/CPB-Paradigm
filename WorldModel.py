@@ -1,17 +1,5 @@
-
-
-
 class WorldModel:
 
-#given battery level(some number) is it low or not?  low varies based on task
-#scores? action needs number higher than default, each action needs different numbers. have a hierarchy of things to do, bot can do 2 things at once
-#what is the max battery level?
-#tell him we need a medication time in world model
-#reminded means that the task has been completed, said "time for meds"
-#medication refused =person said 'no',
-#no interaction needed from Vincent
-#engaged from Vincent
-#need to consider motor hot (minimize damage)<- perhaps this falls under maximize readiness?
 
     def __init__(self):
         self.count = -1
@@ -42,12 +30,12 @@ class WorldModel:
             'notify':   [ 0, 0, 1,-1, 0,-2, 0],
             'engage':   [ 0,-1,-1,-1, 0, 0, 0]
         },{
-            'charge':   [ 0, 0, 0,-1, 0, 0, 0],
-            'remind':   [-1, 0, 0,-1, 0, 0, 0],
+            'charge':   [ 0, 1, 0,-1, 0, 0, 0],
+            'remind':   [-1,-1, 0,-1, 0, 0, 0],
             'warn':     [ 0, 0, 0,-1, 0,-1, 0],
-            'seek task':[ 0, 0, 0, 1, 0, 0, 0],   # seek task is correct since at charging station, fully charged, no med issue
+            'seek task':[ 0,-1, 0, 1, 0, 0, 0],   # seek task is correct since at charging station, fully charged, no med issue
             'notify':   [ 0, 0, 0,-1, 0,-2, 0],
-            'engage':   [ 0, 0, 0,-1, 0, 0, 0]
+            'engage':   [ 0,-1, 0,-1, 0, 0, 0]
         },{
             'charge':   [ 0, 1,-1,-1,-1, 0, 0],
             'remind':   [-1,-1,-1,-1,-1, 0, 0],
@@ -84,7 +72,7 @@ class WorldModel:
         WARNED = 6
         PERSISTENT_IMMOBILITY = 7
         ENGAGED = 8
-
+        AT_CHARGING_STATION = 9
 
         #Duty constants
         HONOR_COMMITMENTS = 0
@@ -206,69 +194,3 @@ class WorldModel:
     def getWorld(self):
         self.count = self.count + 1
         return self._actions[self.count%len(self._actions)]
-
-    def generate_world(self,perception_values):
-        # Perception constants
-        LOW_BATTERY = 0
-        MEDICATION_REMINDER_TIME = 1
-        REMINDED = 2
-        REFUSED_MEDIATION = 3
-        FULLY_CHARGED = 4
-        NO_INTERACTION = 5
-        WARNED = 6
-        PERSISTENT_IMMOBILITY = 7
-        ENGAGED = 8
-        AT_CHARGING_STATION = 9
-
-        #Duty constants
-        HONOR_COMMITMENTS = 0
-        MAINTAIN_READINESS = 1
-        HARM_TO_PATIENT = 2
-        GOOD_TO_PATIENT = 3
-        NON_INTERACTION = 4
-        RESPECT_AUTONOMY = 5
-        PREVENT_PERSISTENT_IMMOBILITY = 6
-
-        world = {
-            'charge':   [0, 0, 0, 0, 0, 0, 0],
-            'remind':   [0, 0, 0, 0, 0, 0, 0],
-            'warn':     [0, 0, 0, 0, 0, 0, 0],
-            'seek task':[0, 0, 0, 0, 0, 0, 0],
-            'notify':   [0, 0, 0, 0, 0, 0, 0],
-            'engage':   [0, 0, 0, 0, 0, 0, 0]
-        }
-        # remind is correct due to following orders, no chance of harm at this point
-        if (not perception_values[LOW_BATTERY] and perception_values[MEDICATION_REMINDER_TIME] and not perception_values[REMINDED]
-            and not perception_values[REFUSED_MEDIATION] and not perception_values[FULLY_CHARGED] and not perception_values[NO_INTERACTION]
-            and not perception_values[WARNED] and not perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
-        # charge is correct, no order yet to follow, low battery
-        elif (perception_values[LOW_BATTERY] and not perception_values[MEDICATION_REMINDER_TIME] and not perception_values[REMINDED]
-            and not perception_values[REFUSED_MEDIATION] and not perception_values[FULLY_CHARGED] and not perception_values[NO_INTERACTION]
-            and not perception_values[WARNED] and not perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
-        # warn is correct due to non-compliance (i.e. refusing medication)
-        elif (not perception_values[LOW_BATTERY] and not perception_values[MEDICATION_REMINDER_TIME] and perception_values[REMINDED]
-            and perception_values[REFUSED_MEDIATION] and not perception_values[FULLY_CHARGED] and not perception_values[NO_INTERACTION]
-            and not perception_values[WARNED] and not perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
-        # seek task is correct since at charging station, fully charged, no med issue
-        elif (not perception_values[LOW_BATTERY] and not perception_values[MEDICATION_REMINDER_TIME] and not perception_values[REMINDED]
-            and not perception_values[REFUSED_MEDIATION] and perception_values[FULLY_CHARGED] and not perception_values[NO_INTERACTION]
-            and not perception_values[WARNED] and not perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
-        # warn is correct due to non-interaction after reminding
-        elif (not perception_values[LOW_BATTERY] and not perception_values[MEDICATION_REMINDER_TIME] and perception_values[REMINDED]
-            and not perception_values[REFUSED_MEDIATION] and not perception_values[FULLY_CHARGED] and perception_values[NO_INTERACTION]
-            and not perception_values[WARNED] and not perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
-        # notify is correct due to non-interaction after warning
-        elif (not perception_values[LOW_BATTERY] and not perception_values[MEDICATION_REMINDER_TIME] and not perception_values[REMINDED]
-            and not perception_values[REFUSED_MEDIATION] and not perception_values[FULLY_CHARGED] and perception_values[NO_INTERACTION]
-            and perception_values[WARNED] and not perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
-        # engage is correct due to persistent immobility
-        elif (not perception_values[LOW_BATTERY] and not perception_values[MEDICATION_REMINDER_TIME] and not perception_values[REMINDED]
-            and not perception_values[REFUSED_MEDIATION] and not perception_values[FULLY_CHARGED] and not perception_values[NO_INTERACTION]
-            and not perception_values[WARNED] and perception_values[PERSISTENT_IMMOBILITY] and not perception_values[ENGAGED]
-            and not perception_values[AT_CHARGING_STATION]):
